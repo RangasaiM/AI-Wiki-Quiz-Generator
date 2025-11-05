@@ -7,6 +7,33 @@ export default function GenerateQuizTab() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [quizData, setQuizData] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [previewing, setPreviewing] = useState(false);
+
+  const handleUrlBlur = async () => {
+    if (!url.trim() || !url.includes('wikipedia.org')) {
+      setPreview(null);
+      return;
+    }
+
+    setPreviewing(true);
+    setError('');
+
+    try {
+      const result = await api.previewUrl(url);
+      if (result.valid) {
+        setPreview(result);
+      } else {
+        setError(result.message);
+        setPreview(null);
+      }
+    } catch (err) {
+      setError(err.message);
+      setPreview(null);
+    } finally {
+      setPreviewing(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,6 +52,7 @@ export default function GenerateQuizTab() {
     setError('');
     setLoading(true);
     setQuizData(null);
+    setPreview(null);
 
     try {
       const result = await api.generateQuiz(url);
@@ -52,11 +80,28 @@ export default function GenerateQuizTab() {
               id="url"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
+              onBlur={handleUrlBlur}
               placeholder="https://en.wikipedia.org/wiki/..."
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
               disabled={loading}
             />
           </div>
+
+          {/* URL Preview */}
+          {previewing && (
+            <div className="bg-gray-50 border border-gray-300 p-4 rounded-lg">
+              <p className="text-sm text-gray-600">Validating URL...</p>
+            </div>
+          )}
+
+          {preview && preview.valid && (
+            <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded">
+              <p className="text-sm text-green-800">
+                <span className="font-semibold">✓ Article found:</span> {preview.title}
+              </p>
+              <p className="text-xs text-green-600 mt-1">{preview.message}</p>
+            </div>
+          )}
 
           {error && (
             <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded">
