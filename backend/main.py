@@ -5,8 +5,8 @@ from datetime import datetime
 import json
 
 from database import init_db, get_db, Quiz
-from models import QuizGenerateRequest, QuizHistoryResponse, QuizDetailResponse, QuizOutput
-from scraper import scrape_wikipedia
+from models import QuizGenerateRequest, QuizHistoryResponse, QuizDetailResponse, QuizOutput, URLPreviewRequest
+from scraper import scrape_wikipedia, validate_and_preview_url
 from llm_quiz_generator import generate_quiz
 
 # Initialize FastAPI app
@@ -45,10 +45,29 @@ async def root():
         "version": "1.0.0",
         "endpoints": {
             "generate_quiz": "POST /generate_quiz",
+            "preview_url": "POST /preview_url",
             "history": "GET /history",
             "quiz_detail": "GET /quiz/{quiz_id}"
         }
     }
+
+
+@app.post("/preview_url")
+async def preview_url(request: URLPreviewRequest):
+    """
+    Validate a Wikipedia URL and fetch article title for preview.
+    
+    Args:
+        request: URLPreviewRequest with Wikipedia URL
+        
+    Returns:
+        Validation result with title if valid
+    """
+    try:
+        result = validate_and_preview_url(request.url)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to validate URL: {str(e)}")
 
 
 @app.post("/generate_quiz")

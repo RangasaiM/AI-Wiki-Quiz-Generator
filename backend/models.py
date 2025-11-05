@@ -30,6 +30,13 @@ class QuizGenerateRequest(BaseModel):
     url: str = Field(..., description="Wikipedia article URL")
 
 
+class URLPreviewRequest(BaseModel):
+    """
+    Request schema for URL preview endpoint.
+    """
+    url: str = Field(..., description="Wikipedia article URL to validate")
+
+
 class QuizHistoryResponse(BaseModel):
     """
     Response schema for quiz history list.
