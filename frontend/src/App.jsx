@@ -6,15 +6,15 @@ function App() {
   const [activeTab, setActiveTab] = useState('generate');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 fade-in">
       {/* Header */}
-      <header className="bg-white shadow-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h1 className="text-4xl font-bold text-gray-900">
-            🧠 AI Wiki Quiz Generator
+      <header className="glass border-b border-white/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <h1 className="text-5xl font-bold gradient-text slide-up">
+            🧠 AI Quiz Generator
           </h1>
-          <p className="text-gray-600 mt-2">
-            Transform Wikipedia articles into educational quizzes using AI
+          <p className="text-gray-700 mt-3 text-lg slide-up">
+            Transform Wikipedia articles into intelligent quizzes with AI
           </p>
         </div>
       </header>
@@ -22,24 +22,24 @@ function App() {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Tab Navigation */}
-        <div className="bg-white rounded-lg shadow-md mb-6">
-          <div className="flex border-b">
+        <div className="glass rounded-2xl p-2 mb-8 card-hover slide-up">
+          <div className="flex gap-2">
             <button
               onClick={() => setActiveTab('generate')}
-              className={`flex-1 px-6 py-4 text-lg font-semibold transition-colors ${
+              className={`flex-1 px-6 py-4 text-lg font-bold rounded-xl transition-all duration-300 ${
                 activeTab === 'generate'
-                  ? 'text-blue-600 border-b-4 border-blue-600'
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white shadow-lg scale-105'
+                  : 'text-gray-700 hover:bg-white/50'
               }`}
             >
-              📝 Generate Quiz
+              ✨ Generate Quiz
             </button>
             <button
               onClick={() => setActiveTab('history')}
-              className={`flex-1 px-6 py-4 text-lg font-semibold transition-colors ${
+              className={`flex-1 px-6 py-4 text-lg font-bold rounded-xl transition-all duration-300 ${
                 activeTab === 'history'
-                  ? 'text-blue-600 border-b-4 border-blue-600'
-                  : 'text-gray-600 hover:text-gray-900'
+                  ? 'bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white shadow-lg scale-105'
+                  : 'text-gray-700 hover:bg-white/50'
               }`}
             >
               📚 Quiz History
@@ -55,9 +55,11 @@ function App() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t mt-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-gray-600">
-          <p>Powered by FastAPI, React, and Google Gemini AI</p>
+      <footer className="glass border-t border-white/20 mt-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center">
+          <p className="text-gray-700 font-medium">
+            ⚡ Powered by <span className="gradient-text font-bold">FastAPI</span>, <span className="gradient-text font-bold">React</span>, and <span className="gradient-text font-bold">Google Gemini AI</span>
+          </p>
         </div>
       </footer>
     </div>
