@@ -67,8 +67,8 @@ export default function GenerateQuizTab() {
   return (
     <div className="space-y-6">
       {/* Form Section */}
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-4">Generate Quiz from Wikipedia</h2>
+      <div className="glass rounded-2xl p-8 card-hover slide-up">
+        <h2 className="text-3xl font-bold gradient-text mb-6">Generate Quiz from Wikipedia</h2>
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -82,65 +82,81 @@ export default function GenerateQuizTab() {
               onChange={(e) => setUrl(e.target.value)}
               onBlur={handleUrlBlur}
               placeholder="https://en.wikipedia.org/wiki/..."
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+              className="w-full px-5 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 outline-none transition-all duration-300 text-lg"
               disabled={loading}
             />
           </div>
 
           {/* URL Preview */}
           {previewing && (
-            <div className="bg-gray-50 border border-gray-300 p-4 rounded-lg">
-              <p className="text-sm text-gray-600">Validating URL...</p>
+            <div className="glass border-2 border-purple-200 p-4 rounded-xl fade-in">
+              <p className="text-sm text-gray-600 flex items-center gap-2">
+                <span className="animate-spin">⏳</span> Validating URL...
+              </p>
             </div>
           )}
 
           {preview && preview.valid && (
-            <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded">
-              <p className="text-sm text-green-800">
-                <span className="font-semibold">✓ Article found:</span> {preview.title}
+            <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-green-500 p-5 rounded-xl shadow-md fade-in">
+              <p className="text-sm text-green-800 font-semibold">
+                <span className="text-lg">✓</span> Article found: <span className="gradient-text">{preview.title}</span>
               </p>
-              <p className="text-xs text-green-600 mt-1">{preview.message}</p>
+              <p className="text-xs text-green-600 mt-2">{preview.message}</p>
             </div>
           )}
 
           {error && (
-            <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded">
-              <p className="text-red-800">{error}</p>
+            <div className="bg-gradient-to-r from-red-50 to-pink-50 border-l-4 border-red-500 p-5 rounded-xl shadow-md fade-in">
+              <p className="text-red-800 font-semibold">⚠️ {error}</p>
             </div>
           )}
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed transition-colors"
+            className="w-full gradient-btn disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-lg py-4"
           >
-            {loading ? 'Generating Quiz...' : 'Generate Quiz'}
+            {loading ? '🔄 Generating Quiz...' : '✨ Generate Quiz'}
           </button>
         </form>
       </div>
 
       {/* Loading State */}
       {loading && (
-        <div className="bg-white rounded-lg shadow-md p-12 text-center">
-          <div className="inline-block animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mb-4"></div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">Generating Your Quiz</h3>
-          <p className="text-gray-600">This may take up to 30 seconds...</p>
-          <div className="mt-4 space-y-2 text-sm text-gray-500">
-            <p>✓ Scraping Wikipedia article</p>
-            <p>✓ Processing content with AI</p>
-            <p>✓ Generating questions and answers</p>
+        <div className="glass rounded-2xl p-12 text-center card-hover fade-in">
+          <div className="inline-block animate-spin rounded-full h-20 w-20 border-b-4 border-purple-600 mb-6 pulse-glow"></div>
+          <h3 className="text-2xl font-bold gradient-text mb-3">Generating Your Quiz</h3>
+          <p className="text-gray-600 text-lg mb-6">This may take up to 30 seconds...</p>
+          <div className="space-y-3 text-sm text-gray-500">
+            <p className="flex items-center justify-center gap-2">
+              <span className="text-green-500">✓</span> Scraping Wikipedia article
+            </p>
+            <p className="flex items-center justify-center gap-2">
+              <span className="text-green-500">✓</span> Processing content with AI
+            </p>
+            <p className="flex items-center justify-center gap-2">
+              <span className="text-yellow-500 animate-pulse">⏳</span> Generating questions and answers
+            </p>
           </div>
         </div>
       )}
 
       {/* Quiz Results */}
       {quizData && !loading && (
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="mb-6 pb-4 border-b">
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">{quizData.title}</h2>
-            <p className="text-sm text-gray-500">
-              Generated on {new Date(quizData.date_generated).toLocaleString()}
-            </p>
+        <div className="glass rounded-2xl p-8 card-hover slide-up">
+          <div className="mb-8 pb-6 border-b border-gray-200">
+            <h2 className="text-4xl font-bold gradient-text mb-3">{quizData.title}</h2>
+            <div className="flex items-center gap-4 text-sm text-gray-600">
+              <p className="flex items-center gap-2">
+                <span>🗓️</span>
+                {new Date(quizData.date_generated).toLocaleString()}
+              </p>
+              {quizData.cached && (
+                <span className="bg-gradient-to-r from-blue-100 to-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-semibold">
+                  ⚡ Cached Result
+                </span>
+              )}
+            </div>
           </div>
           
           <QuizDisplay quizData={quizData} />

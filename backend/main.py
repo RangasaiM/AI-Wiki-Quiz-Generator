@@ -160,6 +160,9 @@ async def get_history(db: Session = Depends(get_db)):
         ]
         
     except Exception as e:
+        print(f"❌ Error fetching history: {str(e)}")
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Failed to fetch history: {str(e)}")
 
 

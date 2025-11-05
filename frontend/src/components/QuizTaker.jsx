@@ -67,38 +67,40 @@ export default function QuizTaker({ quizData }) {
     return (
       <div className="space-y-6">
         {/* Score Summary */}
-        <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg shadow-lg p-8 text-center">
-          <h2 className="text-3xl font-bold mb-4">Quiz Complete! 🎉</h2>
-          <div className="text-6xl font-bold mb-4">{percentage}%</div>
-          <p className="text-xl mb-2">
+        <div className="glass bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-white rounded-2xl shadow-2xl p-10 text-center slide-up">
+          <h2 className="text-4xl font-bold mb-6 flex items-center justify-center gap-3">
+            <span>🎉</span> Quiz Complete! <span>🎉</span>
+          </h2>
+          <div className="text-7xl font-bold mb-6 drop-shadow-lg">{percentage}%</div>
+          <p className="text-2xl mb-3 font-semibold">
             You scored {score} out of {totalQuestions}
           </p>
-          <p className="text-sm opacity-90">
-            {percentage >= 80 ? 'Excellent work!' : percentage >= 60 ? 'Good job!' : 'Keep practicing!'}
+          <p className="text-lg opacity-90">
+            {percentage >= 80 ? '🎖️ Excellent work!' : percentage >= 60 ? '👍 Good job!' : '💪 Keep practicing!'}
           </p>
         </div>
 
         {/* Detailed Results */}
         <div className="space-y-4">
-          <h3 className="text-2xl font-bold text-gray-900">Review Your Answers</h3>
+          <h3 className="text-3xl font-bold gradient-text">Review Your Answers</h3>
           {questions.map((question, index) => {
             const userAnswer = userAnswers[index];
             const isCorrect = userAnswer === question.correct_answer;
 
             return (
-              <div key={index} className="bg-white border-2 border-gray-200 rounded-lg p-5 shadow-sm">
-                <div className="flex items-start gap-3 mb-3">
-                  <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                    isCorrect ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
+              <div key={index} className="glass rounded-xl p-6 shadow-lg card-hover fade-in">
+                <div className="flex items-start gap-4 mb-4">
+                  <div className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg ${
+                    isCorrect ? 'bg-gradient-to-r from-green-400 to-emerald-500 text-white' : 'bg-gradient-to-r from-red-400 to-pink-500 text-white'
                   }`}>
                     {isCorrect ? '✓' : '✗'}
                   </div>
-                  <h4 className="font-semibold text-gray-900 flex-1">
+                  <h4 className="font-bold text-gray-900 flex-1 text-lg">
                     {index + 1}. {question.question}
                   </h4>
                 </div>
 
-                <div className="ml-11 space-y-2">
+                <div className="ml-16 space-y-3">
                   {question.options.map((option, optIndex) => {
                     const isUserAnswer = option === userAnswer;
                     const isCorrectAnswer = option === question.correct_answer;
@@ -106,33 +108,33 @@ export default function QuizTaker({ quizData }) {
                     return (
                       <div
                         key={optIndex}
-                        className={`p-3 rounded-lg border-2 ${
+                        className={`p-4 rounded-xl border-2 transition-all ${
                           isCorrectAnswer
-                            ? 'bg-green-50 border-green-300'
+                            ? 'bg-gradient-to-r from-green-50 to-emerald-50 border-green-400 shadow-md'
                             : isUserAnswer
-                            ? 'bg-red-50 border-red-300'
-                            : 'bg-gray-50 border-gray-200'
+                            ? 'bg-gradient-to-r from-red-50 to-pink-50 border-red-400'
+                            : 'bg-white border-gray-200'
                         }`}
                       >
-                        <span className="font-medium mr-2">
+                        <span className="font-bold text-purple-600 mr-2">
                           {String.fromCharCode(65 + optIndex)}.
                         </span>
-                        <span className={isCorrectAnswer ? 'font-semibold text-green-800' : ''}>
+                        <span className={isCorrectAnswer ? 'font-bold text-green-900' : 'text-gray-800'}>
                           {option}
                         </span>
                         {isCorrectAnswer && (
-                          <span className="ml-2 text-green-600 font-bold">✓ Correct</span>
+                          <span className="ml-3 text-green-600 font-bold text-lg">✓ Correct</span>
                         )}
                         {isUserAnswer && !isCorrectAnswer && (
-                          <span className="ml-2 text-red-600 font-bold">Your answer</span>
+                          <span className="ml-3 text-red-600 font-bold">✗ Your answer</span>
                         )}
                       </div>
                     );
                   })}
 
-                  <div className="bg-blue-50 border-l-4 border-blue-400 p-3 rounded mt-3">
+                  <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-400 p-4 rounded-xl mt-4">
                     <p className="text-sm text-blue-900">
-                      <span className="font-semibold">Explanation: </span>
+                      <span className="font-bold">💡 Explanation: </span>
                       {question.explanation}
                     </p>
                   </div>
@@ -145,9 +147,9 @@ export default function QuizTaker({ quizData }) {
         {/* Restart Button */}
         <button
           onClick={handleRestartQuiz}
-          className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+          className="w-full gradient-btn text-lg py-4"
         >
-          Take Quiz Again
+          🔄 Take Quiz Again
         </button>
       </div>
     );
@@ -160,44 +162,44 @@ export default function QuizTaker({ quizData }) {
   return (
     <div className="space-y-6">
       {/* Progress Bar */}
-      <div className="bg-white rounded-lg shadow-md p-4">
-        <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-medium text-gray-700">
+      <div className="glass rounded-2xl p-6 card-hover">
+        <div className="flex justify-between items-center mb-3">
+          <span className="text-sm font-bold text-gray-700">
             Question {currentQuestion + 1} of {totalQuestions}
           </span>
-          <span className="text-sm font-medium text-gray-700">
+          <span className="text-sm font-bold gradient-text">
             {Math.round(progress)}% Complete
           </span>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-3">
+        <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
           <div
-            className="bg-blue-600 h-3 rounded-full transition-all duration-300"
+            className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 h-4 rounded-full transition-all duration-500 shadow-lg"
             style={{ width: `${progress}%` }}
           />
         </div>
       </div>
 
       {/* Question Card */}
-      <div className="bg-white rounded-lg shadow-lg p-8">
-        <h3 className="text-2xl font-bold text-gray-900 mb-6">
+      <div className="glass rounded-2xl shadow-2xl p-10 slide-up">
+        <h3 className="text-3xl font-bold gradient-text mb-8">
           {question.question}
         </h3>
 
-        <div className="space-y-3">
+        <div className="space-y-4">
           {question.options.map((option, optIndex) => (
             <button
               key={optIndex}
               onClick={() => handleAnswerSelect(option)}
-              className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
+              className={`w-full text-left p-5 rounded-xl border-2 transition-all duration-300 ${
                 selectedAnswer === option
-                  ? 'border-blue-500 bg-blue-50 shadow-md'
-                  : 'border-gray-200 bg-gray-50 hover:border-blue-300 hover:bg-blue-50'
+                  ? 'border-purple-500 bg-gradient-to-r from-purple-50 to-pink-50 shadow-xl scale-105 ring-4 ring-purple-200'
+                  : 'border-gray-200 bg-white hover:border-purple-300 hover:bg-purple-50 hover:shadow-lg'
               }`}
             >
-              <span className="font-medium text-gray-700 mr-3">
+              <span className="font-bold text-purple-600 text-lg mr-4">
                 {String.fromCharCode(65 + optIndex)}.
               </span>
-              <span className={selectedAnswer === option ? 'font-semibold text-blue-900' : 'text-gray-800'}>
+              <span className={selectedAnswer === option ? 'font-bold text-purple-900 text-lg' : 'text-gray-800 text-lg'}>
                 {option}
               </span>
             </button>
@@ -210,22 +212,24 @@ export default function QuizTaker({ quizData }) {
         <button
           onClick={handlePreviousQuestion}
           disabled={currentQuestion === 0}
-          className="flex-1 bg-gray-200 text-gray-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors"
+          className="flex-1 bg-white text-gray-700 px-6 py-4 rounded-xl font-bold border-2 border-gray-300 hover:bg-gray-50 hover:border-gray-400 disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-200 disabled:cursor-not-allowed transition-all text-lg shadow-md hover:shadow-lg"
         >
           ← Previous
         </button>
         <button
           onClick={handleNextQuestion}
           disabled={!selectedAnswer}
-          className="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed transition-colors"
+          className="flex-1 gradient-btn disabled:opacity-50 disabled:cursor-not-allowed text-lg py-4"
         >
-          {currentQuestion === totalQuestions - 1 ? 'Finish Quiz' : 'Next →'}
+          {currentQuestion === totalQuestions - 1 ? '✅ Finish Quiz' : 'Next →'}
         </button>
       </div>
 
       {/* Answer Counter */}
-      <div className="text-center text-sm text-gray-600">
-        Answered: {Object.keys(userAnswers).length + (selectedAnswer ? 1 : 0)} / {totalQuestions}
+      <div className="text-center glass p-4 rounded-xl">
+        <p className="text-sm font-bold text-gray-700">
+          Answered: <span className="gradient-text text-lg">{Object.keys(userAnswers).length + (selectedAnswer ? 1 : 0)}</span> / {totalQuestions}
+        </p>
       </div>
     </div>
   );

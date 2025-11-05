@@ -48,33 +48,38 @@ export default function HistoryTab() {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-lg shadow-md p-12 text-center">
-        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-4 border-blue-600 mb-4"></div>
-        <p className="text-gray-600">Loading quiz history...</p>
+      <div className="glass rounded-2xl p-16 text-center card-hover fade-in">
+        <div className="inline-block animate-spin rounded-full h-16 w-16 border-b-4 border-purple-600 mb-6 pulse-glow"></div>
+        <p className="text-gray-700 text-lg font-semibold">Loading quiz history...</p>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded">
-        <p className="text-red-800">{error}</p>
+      <div className="bg-gradient-to-r from-red-50 to-pink-50 border-l-4 border-red-500 p-6 rounded-xl shadow-md fade-in">
+        <p className="text-red-800 font-bold flex items-center gap-2">
+          <span>⚠️</span> {error}
+        </p>
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg shadow-md overflow-hidden">
-        <div className="p-6 border-b bg-gray-50">
-          <h2 className="text-2xl font-bold text-gray-900">Quiz History</h2>
-          <p className="text-gray-600 mt-1">Total Quizzes: {history.length}</p>
+      <div className="glass rounded-2xl overflow-hidden shadow-xl card-hover slide-up">
+        <div className="p-8 border-b border-gray-200 bg-gradient-to-r from-indigo-50 to-purple-50">
+          <h2 className="text-3xl font-bold gradient-text mb-2">📚 Quiz History</h2>
+          <p className="text-gray-700 text-lg font-semibold">
+            Total Quizzes: <span className="gradient-text">{history.length}</span>
+          </p>
         </div>
 
         {history.length === 0 ? (
-          <div className="p-12 text-center">
-            <p className="text-gray-500 text-lg">No quizzes generated yet.</p>
-            <p className="text-gray-400 mt-2">Generate your first quiz from the "Generate Quiz" tab!</p>
+          <div className="p-16 text-center">
+            <div className="text-6xl mb-4">📚</div>
+            <p className="text-gray-600 text-xl font-semibold mb-2">No quizzes generated yet.</p>
+            <p className="text-gray-500">Generate your first quiz from the "Generate Quiz" tab!</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -118,9 +123,9 @@ export default function HistoryTab() {
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                       <button
                         onClick={() => handleViewDetails(quiz.id)}
-                        className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                        className="gradient-btn px-4 py-2 text-sm"
                       >
-                        View Details
+                        👁️ View Details
                       </button>
                     </td>
                   </tr>
