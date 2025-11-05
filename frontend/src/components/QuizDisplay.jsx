@@ -1,12 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
+import QuizTaker from './QuizTaker';
 
 export default function QuizDisplay({ quizData }) {
+  const [mode, setMode] = useState('view'); // 'view' or 'take'
+
   if (!quizData) return null;
 
   const { quiz_data } = quizData;
 
+  // If in 'take' mode, show QuizTaker component
+  if (mode === 'take') {
+    return (
+      <div className="space-y-4">
+        <div className="flex justify-between items-center">
+          <h3 className="text-2xl font-bold text-gray-900">Take Quiz Mode</h3>
+          <button
+            onClick={() => setMode('view')}
+            className="text-blue-600 hover:text-blue-800 font-medium"
+          >
+            ← Back to View Mode
+          </button>
+        </div>
+        <QuizTaker quizData={quizData} />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
+      {/* Mode Toggle */}
+      <div className="flex justify-end">
+        <button
+          onClick={() => setMode('take')}
+          className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors flex items-center gap-2"
+        >
+          <span>📝</span>
+          Take This Quiz
+        </button>
+      </div>
+
       {/* Summary Section */}
       <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
         <h3 className="text-lg font-semibold text-blue-900 mb-2">Summary</h3>
