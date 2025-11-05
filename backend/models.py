@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field, ConfigDict
-from typing import List
+from typing import List, Optional
 
 
 class QuizQuestion(BaseModel):
@@ -10,6 +10,8 @@ class QuizQuestion(BaseModel):
     options: List[str] = Field(..., description="List of 4 answer options")
     correct_answer: str = Field(..., description="The correct answer from the options")
     explanation: str = Field(..., description="Brief explanation of why the answer is correct")
+    section: Optional[str] = Field(None, description="Section/category this question belongs to")
+    difficulty: Optional[str] = Field(None, description="Difficulty level: easy, medium, or hard")
 
 
 class QuizOutput(BaseModel):

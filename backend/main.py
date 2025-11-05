@@ -83,21 +83,36 @@ async def generate_quiz_endpoint(request: QuizGenerateRequest, db: Session = Dep
         Generated quiz data with ID
     """
     try:
-        # Step 1: Scrape Wikipedia article
-        print(f"🔍 Scraping Wikipedia article: {request.url}")
-        scraped_content, title = scrape_wikipedia(request.url)
+        # Step 1: Check cache - if URL already exists, return cached quiz
+        cached_quiz = db.query(Quiz).filter(Quiz.url == request.url).first()
+        if cached_quiz:
+            print(f"✅ Cache hit! Returning existing quiz for: {request.url}")
+            quiz_data = json.loads(cached_quiz.full_quiz_data)
+            return {
+                "id": cached_quiz.id,
+                "url": cached_quiz.url,
+                "title": cached_quiz.title,
+                "date_generated": cached_quiz.date_generated.isoformat(),
+                "quiz_data": quiz_data,
+                "cached": True
+            }
+        
+        # Step 2: Scrape Wikipedia article (cache miss)
+        print(f"🔍 Cache miss. Scraping Wikipedia article: {request.url}")
+        scraped_content, title, raw_html = scrape_wikipedia(request.url)
         
         # Step 2: Generate quiz using LLM
         print(f"🤖 Generating quiz for: {title}")
         quiz_output = generate_quiz(scraped_content)
         
-        # Step 3: Save to database
+        # Step 3: Save to database with raw HTML
         quiz_data_json = quiz_output.model_dump_json()  # Serialize to JSON string
         
         new_quiz = Quiz(
             url=request.url,
             title=title,
             scraped_content=scraped_content,
+            raw_html=raw_html,
             full_quiz_data=quiz_data_json,
             date_generated=datetime.utcnow()
         )
@@ -114,7 +129,8 @@ async def generate_quiz_endpoint(request: QuizGenerateRequest, db: Session = Dep
             "url": new_quiz.url,
             "title": new_quiz.title,
             "date_generated": new_quiz.date_generated.isoformat(),
-            "quiz_data": quiz_output.model_dump()
+            "quiz_data": quiz_output.model_dump(),
+            "cached": False
         }
         
     except Exception as e:

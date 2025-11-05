@@ -23,10 +23,11 @@ class Quiz(Base):
     __tablename__ = "quizzes"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    url = Column(String, nullable=False)
+    url = Column(String, nullable=False, index=True)  # Indexed for caching lookups
     title = Column(String, nullable=False)
     date_generated = Column(DateTime, default=datetime.utcnow)
-    scraped_content = Column(Text, nullable=True)  # Stores the raw Wikipedia content
+    scraped_content = Column(Text, nullable=True)  # Stores the cleaned Wikipedia content
+    raw_html = Column(Text, nullable=True)  # Stores the raw HTML for reference
     full_quiz_data = Column(Text, nullable=False)  # Stores serialized JSON quiz data
 
 

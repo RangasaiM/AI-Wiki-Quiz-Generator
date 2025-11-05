@@ -1,9 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
-from typing import Tuple, Dict
+from typing import Tuple, Dict, Optional
 
 
-def scrape_wikipedia(url: str) -> Tuple[str, str]:
+def scrape_wikipedia(url: str) -> Tuple[str, str, str]:
     """
     Scrape a Wikipedia article and extract clean content.
     
@@ -11,7 +11,7 @@ def scrape_wikipedia(url: str) -> Tuple[str, str]:
         url: Wikipedia article URL
         
     Returns:
-        Tuple of (cleaned_text, article_title)
+        Tuple of (cleaned_text, article_title, raw_html)
         
     Raises:
         Exception: If scraping fails or content cannot be extracted
@@ -25,6 +25,9 @@ def scrape_wikipedia(url: str) -> Tuple[str, str]:
         # Fetch the page
         response = requests.get(url, headers=headers, timeout=10)
         response.raise_for_status()
+        
+        # Store raw HTML
+        raw_html = response.text
         
         # Parse HTML
         soup = BeautifulSoup(response.content, 'html.parser')
@@ -73,7 +76,7 @@ def scrape_wikipedia(url: str) -> Tuple[str, str]:
         if len(words) > 4000:
             cleaned_text = ' '.join(words[:4000]) + "..."
         
-        return cleaned_text, title
+        return cleaned_text, title, raw_html
         
     except requests.RequestException as e:
         raise Exception(f"Failed to fetch Wikipedia page: {str(e)}")

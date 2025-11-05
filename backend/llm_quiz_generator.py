@@ -42,6 +42,8 @@ Based on this article, generate a comprehensive quiz following these guidelines:
    - Have 4 options each (labeled A, B, C, D)
    - Include clear, educational explanations for the correct answers
    - Avoid trivial or overly specific details
+   - Categorize each question by section (e.g., "Overview", "History", "Key Concepts", "Details")
+   - Mark difficulty level as "easy", "medium", or "hard"
    
 4. **Key Entities**: Identify 3-5 main entities, people, places, or concepts from the article
 5. **Related Topics**: Suggest 3-5 related topics for further exploration
@@ -57,7 +59,9 @@ Use this exact format:
       "question": "string",
       "options": ["A. ...", "B. ...", "C. ...", "D. ..."],
       "correct_answer": "string (must match one of the options)",
-      "explanation": "string"
+      "explanation": "string",
+      "section": "string (e.g., Overview, History, Key Concepts)",
+      "difficulty": "easy/medium/hard"
     }}
   ],
   "key_entities": ["string"],
