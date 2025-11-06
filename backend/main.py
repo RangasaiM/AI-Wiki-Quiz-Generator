@@ -22,13 +22,19 @@ app = FastAPI(
 )
 
 # Configure CORS
+# ✅ Updated CORS configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000", "https://ai-wiki-quiz-generator-ok9y9ty70-rangasais-projects.vercel.app/"],  # React dev servers
+    allow_origins=[
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "https://ai-wiki-quiz-generator-pxbb6y4dr-rangasais-projects.vercel.app"  # ✅ your actual frontend domain
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 
 @app.on_event("startup")
