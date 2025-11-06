@@ -5,9 +5,14 @@ from datetime import datetime
 import json
 
 from database import init_db, get_db, Quiz
+from database import Base, engine
 from models import QuizGenerateRequest, QuizHistoryResponse, QuizDetailResponse, QuizOutput, URLPreviewRequest
 from scraper import scrape_wikipedia, validate_and_preview_url
 from llm_quiz_generator import generate_quiz
+
+
+Base.metadata.create_all(bind=engine)
+
 
 # Initialize FastAPI app
 app = FastAPI(
