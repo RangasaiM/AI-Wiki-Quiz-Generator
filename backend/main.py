@@ -28,7 +28,8 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173",
         "http://localhost:3000",
-        "https://ai-wiki-quiz-generator-pxbb6y4dr-rangasais-projects.vercel.app"  # ✅ your actual frontend domain
+        "https://ai-wiki-quiz-generator-pxbb6y4dr-rangasais-projects.vercel.app",
+        "https://ai-wiki-quiz-generator-cyan.vercel.app"  # ✅ your actual frontend domain
     ],
     allow_credentials=True,
     allow_methods=["*"],
